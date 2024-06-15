@@ -1,0 +1,17 @@
+{
+  "name": "monitor4fv_appliation",
+  "version": "1.0.0",
+  "description": "Una fantastica applicazione dimostrativa",
+  "main": "appAPI.js",
+  "bin": "appAPI.js",
+  "author": "Gabriele Tomai",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "express": "^4.19.2",
+    "http": "^0.0.1-security",
+    "mqtt": "^5.5.3",
+    "node-fetch": "^3.3.2",
+    "nodemon": "^3.1.0",
+    "socket.io": "^4.7.5"
+  }
+}
