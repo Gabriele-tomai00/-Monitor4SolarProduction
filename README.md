@@ -21,16 +21,14 @@ You need the following dependencies: `http express socket.io mqtt axios dotenv`
 Crea un file `.env` nella radice del progetto.
 ## Configuration of API VERSION
 
-Se decidi di usare appAPI.js allora aggiungi al file .env i seguenti campi
-```plaintext
+If you decide to use `appAPI.js` then add the following fields to the `.env` file.```plaintext
 # API
 ENDPOINT=your_endpoint
 TOKEN=your_token
 ```
 
 ## Configuration of MQTT VERSION
-Se decidi di usare appAPI.js allora aggiungi al file .env i seguenti campi
-```plaintext
+If you decide to use `appAPI.js` then add the following fields to the `.env` file.```plaintext
 # MQTT
 MQTT_USERNAME=mqtt_user
 MQTT_PASSWORD=your_pwd
