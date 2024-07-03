@@ -372,6 +372,10 @@ body {
   display: flex;
 }
 
+#car-last-update-row {
+  font-size: 20px;
+}
+
 .close {
   color: black;
   position: absolute;

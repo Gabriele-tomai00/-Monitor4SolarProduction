@@ -11,12 +11,13 @@ let carBatteryPercentge;
 let carState;
 let wallboxChargePower;
 let wallboxPlugState;
-
+let lastUpdatePSA;
 // GET HTML DIV //
 const houseValuePowerDiv = document.getElementById("unit-house-power");
 const carValuePercentageDiv = document.getElementById("unit-car-percentage");
 const carValuePercentageDivInModal = document.getElementById("car-percentage-div-in-modal");
 const carValuePowerDiv = document.getElementById("unit-car-power");
+const carValueLastUpdate = document.getElementById("car-last-update");
 const wallboxPlugStateDiv = document.getElementById("prism-plug-state");
 const boilerValuePowerDiv = document.getElementById("unit-boiler-power");
 
@@ -41,7 +42,7 @@ socket.on('dati', (data) => {
                       carBatteryPercentge = "...";
                       carState = "...";
                       wallboxChargePower = "...";
-
+                      lastUpdatePSA = "...";
                       // APPARE ALERT CON SCRITTO "IMMPOSSIBILE COMUNICARE CON IL SERVER"
                       showConnectionAPIAlert();
                     
@@ -61,7 +62,7 @@ socket.on('dati', (data) => {
                       carState = data['prism_stato'];
                       wallboxChargePower = data['prism_potenza_di_carica'];
                       wallboxPlugState = data['prism_plug_state'];
-
+                      lastUpdatePSA = data['car_corsa_last_update'];
                       //console.log("carState: " + carState);
                       //console.log("wallboxChargePower: " + wallboxChargePower);
 
@@ -80,6 +81,7 @@ socket.on('dati', (data) => {
                     carValuePercentageDiv.textContent = carBatteryPercentge + "%";
                     carValuePercentageDivInModal.textContent = carBatteryPercentge + "%";
                     carValuePercentageDivInModal.textContent = carBatteryPercentge + "%";
+                    carValueLastUpdate.textContent = lastUpdatePSA;
                     carValuePowerDiv.textContent = wallboxChargePower + " kw";
                     wallboxPlugStateDiv.textContent = wallboxPlugState;
                     if (wallboxPlugState === "Scollegata") {
