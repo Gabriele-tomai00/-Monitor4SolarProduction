@@ -15,30 +15,23 @@ function getValueById(data, id) {
     return sensor ? sensor.state : 'N/A';
 }
 
-
-// Configura Express per servire file statici dalla directory principale
 app.use(express.static(__dirname));
-
-// Avvia il server Express sulla porta specificata
 const PORT = 3100;
 
 
 io.on('connection', (socket) => {
     console.log('Un client si è connesso');
-    // il payload scaricato ogni 2 secondi è di circa 0.24 MB
+    // the payload downloaded every 2 seconds is about 0.24 MB
 
-    // Funzione per effettuare una richiesta API e inviare i dati ai client
+    // Function to make an API request and send data to clients
     const sendDataToDevices = async () => {
         try {
-            // Effettua una richiesta API includendo il token nell'intestazione
             const response = await axios.get(endpoint, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 },
                 timeout: 4000 // Timeout di 3 secondi in millisecondi
             });
-
-            // Ottieni i dati dalla risposta
             const filteredData = {
                 solaredge_potenza_totale_dc: getValueById(response.data, "sensor.solaredge_potenza_totale_dc"),
                 prism_sensore_rete: getValueById(response.data, "sensor.prism_sensore_rete"),
@@ -56,8 +49,6 @@ io.on('connection', (socket) => {
 
             io.emit('dati', json);
 
-
-
         } catch (error) {
             console.error('Errore durante la richiesta API:', error.message);
             //console.log("invio json vuoto");
@@ -69,7 +60,7 @@ io.on('connection', (socket) => {
         }
     };
 
-    // Invia i dati ogni 2 secondi
+    // Send data every 2 seconds
     setInterval(sendDataToDevices, 2000);
 });
 
@@ -80,9 +71,9 @@ server.listen(3100, () => {
 
 
 
-// Endpoint per controllare lo stato del server
+// Endpoint to check the status of the server
 app.get('/server-status', (req, res) => {
-    res.status(200).send('Il server è attivo e funzionante.');
+    res.status(200).send('The server is up and running');
 });
 app.get('/favicon.ico', (req, res) => res.status(204));
 

@@ -16,10 +16,10 @@ const options = {
 
 const client = mqtt.connect('mqtt://ip', options);
 client.on('connect', function () {
-    console.log('Connessione al broker MQTT avvenuta con successo');
+    console.log('Successful connection to the MQTT broker');
 });
 
-// Gestione dei messaggi ricevuti dal broker MQTT
+// Management of messages received from the MQTT broker
 client.on('message', function (topic, message) {
     const jsonData = JSON.stringify(message.toString(), null, 2);
     const validJsonString = jsonData.replace(/'/g, '"');
@@ -29,9 +29,9 @@ client.on('message', function (topic, message) {
     io.emit('dati', json);
 });
 
-// Gestione degli errori
+// Error management
 client.on('error', function (error) {
-    console.error('Errore di connessione MQTT');
+    console.error('MQTT connection error');
 
     const errJson = {
         error: "Home Assistant MQTT Error Connection",
@@ -42,9 +42,9 @@ client.on('error', function (error) {
 
 client.subscribe('dataForMonitorFV', function (err) {
     if (err) {
-        console.error('Errore durante la sottoscrizione a dataForMonitorFV', err);
+        console.error('Error when subscribing to dataForMonitorFV', err);
     } else {
-        console.log('Sottoscrizione a dataForMonitorFV avvenuta con successo');
+        console.log('Successful subscription to dataForMonitorFV');
     }
 });
 
@@ -69,8 +69,8 @@ server.listen(3100, () => {
 
 
 
-// Endpoint per controllare lo stato del server
+// Endpoint to check the status of the server
 app.get('/server-status', (req, res) => {
-    res.status(200).send('Il server è attivo e funzionante.');
+    res.status(200).send('The server is up and running');
 });
 

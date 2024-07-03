@@ -10,8 +10,8 @@
 
   .table-container {
     width: 100%;
-    max-width: 1000px; /* Limit the maximum width of the table */
-    overflow-x: auto; /* Enable horizontal scrolling if needed */
+    max-width: 1000px; 
+    overflow-x: auto;
   }
 
   table {
@@ -78,13 +78,13 @@
 }
 
 
-/* *************** BARRA PRODUZIONE *************************** */
+/* *************** PRODUCTION BAR *************************** */
 /* Stile base della barra e del numero */
 .energy-bar {
   position: relative; 
-  width: 100%; /* La barra si espanderà al 100% della larghezza del contenitore */
-  max-width: 1000px; /* Limit the maximum width of the table */
-  height: 140px; /* Altezza della barra */
+  width: 100%;
+  max-width: 1000px;
+  height: 140px;
   border: 1px solid #333;
   overflow: hidden;
   background-color: #ccc;
@@ -100,13 +100,11 @@
   transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
-/* Stile del numero all'interno della barra */
 .energy-value {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* font-size: 550%; Dimensione del testo */
   color: #000;
 }
 
@@ -134,7 +132,7 @@
     } 
 }
 
-/* ********************* IMMAGINI ************************** */
+/* ********************* IMAGES ************************** */
 img {
       max-width: 65%;
       max-height: 65%;
@@ -149,7 +147,7 @@ img {
     max-width: 75%;
     max-height: 75%;
 }
-/* *************** TESTO *************************** */
+/* *************** TEXT *************************** */
 th, td {
     font-size: 4em;
     line-height: 0.9; /*interlina al minimo */
@@ -189,7 +187,7 @@ th, td {
   margin: 0;
   padding: 0;
 } 
-/* ******************** BATTERIA *************************** */
+/* ******************** BATTERY *************************** */
 #battery-graphic-container {
     max-width: 100%;
     max-height: 100%;
@@ -283,11 +281,7 @@ th, td {
   margin-right: 10px;
 }
 
-
-/* ******************** BORDERS AND MARGIN TOP *************************** */
-
-
-/* ******************** ALERT ENERGIA *************************** */
+/* ******************** ENERGY ALERT *************************** */
 @keyframes lampeggiante {
   0% { background-color: red; }
   50% { background-color: orange; }
@@ -305,8 +299,8 @@ padding: 20px;
 border-radius: 10px;
 text-align: center;
 margin: 10px;
-display: none; /* nasconde di default */
-animation: lampeggiante 2s infinite; /* animazione lampeggiante */
+display: none; 
+animation: lampeggiante 2s infinite;
 font-size: 50px;
 font-weight: bold;
 
