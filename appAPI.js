@@ -6,9 +6,10 @@ const axios = require('axios');
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
+require('dotenv').config();
 
-const endpoint = 'endpoint';
-const token = 'token';
+const endpoint = process.env.ENDPOINT;
+const token = process.env.TOKEN;
 
 function getValueById(data, id) {
     const sensor = data.find(item => item.entity_id === id);

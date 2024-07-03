@@ -8,13 +8,15 @@ const io = socketIo(server);
 
 const mqtt = require('mqtt');
 
-const options = {
-    username: 'mqtt_user',
-    password: 'pwd',
-    connectTimeout: 3000, // Timeout of 3 seconds
-};
+require('dotenv').config();
 
-const client = mqtt.connect('mqtt://ip', options);
+const options = {
+    username: process.env.MQTT_USERNAME,
+    password: process.env.MQTT_PASSWORD,
+    connectTimeout: parseInt(process.env.MQTT_CONNECT_TIMEOUT, 10),
+};
+const host = process.env.MQTT_HOST;
+const client = mqtt.connect(`mqtt://${host}`, options);
 client.on('connect', function () {
     console.log('Successful connection to the MQTT broker');
 });

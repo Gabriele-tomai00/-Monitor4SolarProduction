@@ -15,31 +15,29 @@ The web server must run on a single machine (even the same one as the browser), 
 
 ## Dependencies
 You need to install `node` and `npm`.  
-You need the following dependencies: `http express socket.io mqtt axios`
+You need the following dependencies: `http express socket.io mqtt axios dotenv`
 
+# Configuration 
+Crea un file `.env` nella radice del progetto.
 ## Configuration of API VERSION
-Set these parameters correctly:
-```javascript
-const endpoint = 'https://....';
-const token = 'validToken'; 
+
+Se decidi di usare appAPI.js allora aggiungi al file .env i seguenti campi
+```plaintext
+# API
+ENDPOINT=your_endpoint
+TOKEN=your_token
 ```
 
 ## Configuration of MQTT VERSION
-Set these parameters correctly:
-```javascript
-const options = {
-    username: 'mqtt_user',
-    password: 'your_password',
-    connectTimeout: 3000
-};
+Se decidi di usare appAPI.js allora aggiungi al file .env i seguenti campi
+```plaintext
+# MQTT
+MQTT_USERNAME=mqtt_user
+MQTT_PASSWORD=your_pwd
+MQTT_CONNECT_TIMEOUT=3000
+MQTT_HOST=your_ip
 ```
-Set the ip address of the MQTT server
-```javascript
-const client = mqtt.connect('mqtt://ip', options);
-client.on('connect', function () {
-    console.log('Connessione al broker MQTT avvenuta con successo');
-});
-```
+
 ## Configuration of both versions (reciver.js)
 
 It is necessary to modify the `reciver.js` file and set the JSON keys (whether using MQTT or API).
