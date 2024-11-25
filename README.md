@@ -29,7 +29,7 @@ TOKEN=your_token
 ```
 
 ## Configuration of MQTT VERSION
-If you decide to use `appAPI.js` then add the following fields to the `.env` file.
+If you decide to use `appMQTT.js` then add the following fields to the `.env` file.
 
 ```plaintext
 # MQTT
