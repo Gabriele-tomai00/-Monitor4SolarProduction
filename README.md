@@ -18,17 +18,20 @@ You need to install `node` and `npm`.
 You need the following dependencies: `http express socket.io mqtt axios dotenv`
 
 # Configuration 
-Crea un file `.env` nella radice del progetto.
+Create a `.env` file in the root of the project.
 ## Configuration of API VERSION
 
-If you decide to use `appAPI.js` then add the following fields to the `.env` file.```plaintext
+If you decide to use `appAPI.js` then add the following fields to the `.env` file.
+```plaintext
 # API
 ENDPOINT=your_endpoint
 TOKEN=your_token
 ```
 
 ## Configuration of MQTT VERSION
-If you decide to use `appAPI.js` then add the following fields to the `.env` file.```plaintext
+If you decide to use `appAPI.js` then add the following fields to the `.env` file.
+
+```plaintext
 # MQTT
 MQTT_USERNAME=mqtt_user
 MQTT_PASSWORD=your_pwd
