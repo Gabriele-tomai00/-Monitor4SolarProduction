@@ -59,23 +59,13 @@ function updateBatteryLevel(batteryPercentageValueDiv) {
  
  ////////////////////////// ARROWS //////////////////////////
  function updateArrowVisibility(fvValue, gridValue, houseValue, batteryValue) {
-    // const fvValue = parseFloat(document.getElementById('fv-value').innerText); 
-    // const houseValue = parseFloat(document.getElementById('house-value').innerText); 
-    // const gridValue = parseFloat(document.getElementById('grid-value').innerText); 
-    // const batteryValue = parseFloat(document.getElementById('battery-power-value').innerText); 
- 
-    // console.log('fvValue: ' + fvValue);
-    // console.log('house-value: ' + houseValue);
-    // console.log('grid-value: ' + gridValue);
-    // console.log('battery-power-value: ' + batteryValue);
- 
+
     const arrowFVtoHouse = document.getElementById('arrowFVtoHouse');
     const arrowFVtoBattery = document.getElementById('arrowFVtoBattery');
     const arrowBatteryToHouse = document.getElementById('arrowBatteryToHouse');
     const arrowGridToHouse = document.getElementById('arrowGridToHouse');
     const arrowFVtoGrid = document.getElementById('arrowFVtoGrid');
- 
- 
+   //console.log(arrowFVtoBattery.style.display);
     // FV //
     if (fvValue >= 99 || houseValue >= 99 || batteryValue >= 999 || gridValue >= 99) {
        //console.log("primo");
@@ -114,18 +104,18 @@ function updateBatteryLevel(batteryPercentageValueDiv) {
     if (gridValue > 0) {
        arrowGridToHouse.style.display = 'block';
        arrowFVtoBattery.style.display = 'none';
-       // showValueAndUnit("grid-value", "unit-grid");
+       showValueAndUnit("grid-value", "unit-grid");
        showValueAndUnit("grid-value-and-unit");
  
     } else if (gridValue < 0) {
        arrowGridToHouse.style.display = 'none';
-       // showValueAndUnit("grid-value", "unit-grid");
+       showValueAndUnit("grid-value", "unit-grid");
        showValueAndUnit("grid-value-and-unit");
  
     } else {
        arrowGridToHouse.style.display = 'none';
        arrowFVtoGrid.style.display = 'none';
-       // hideValueAndUnit("grid-value", "unit-grid");
+       hideValueAndUnit("grid-value", "unit-grid");
        hideValueAndUnit("grid-value-and-unit");
  
     }
@@ -134,24 +124,26 @@ function updateBatteryLevel(batteryPercentageValueDiv) {
        arrowGridToHouse.style.display = 'none'; // per evitare conflitto con l'altra freccia
        arrowFVtoBattery.style.display = 'block';
        arrowBatteryToHouse.style.display = 'none';
-       // showValueAndUnit("battery-power-value", "unit-battery-power");
+       showValueAndUnit("battery-power-value", "unit-battery-power");
        showValueAndUnit("battery-power-value-and-unit");
  
     } else if (batteryValue < 0) {
        arrowFVtoBattery.style.display = 'none';
        arrowBatteryToHouse.style.display = 'block';
-       // showValueAndUnit("battery-power-value", "unit-battery-power");
+       showValueAndUnit("battery-power-value", "unit-battery-power");
        showValueAndUnit("battery-power-value-and-unit");
  
     } else {
        arrowFVtoBattery.style.display = 'none';
        arrowBatteryToHouse.style.display = 'none';
-       // hideValueAndUnit("battery-power-value", "unit-battery-power");
+       hideValueAndUnit("battery-power-value", "unit-battery-power");
        hideValueAndUnit("battery-power-value-and-unit");
        changeSizeBattery();
     }
  }
  
+
+
  ////////////////////////// change weather icon //////////////////////////
  
  // Function to update the weather image based on fv-value
@@ -220,7 +212,7 @@ function updateBatteryLevel(batteryPercentageValueDiv) {
  function checkForEnergyAlert(gridValue, prismPower) {
     var avviso = document.getElementById("gridLimitAlert");
  
-    const audio = new Audio('sounds/alert-sound.mp3'); // Sostituisci 'alert_sound.mp3' con il percorso del tuo file audio
+    const audio = new Audio('sounds/alert-sound.mp3');
     if (prismPower > 0) {
        stopAlert(avviso, audio);
     } else {
@@ -238,7 +230,7 @@ function updateBatteryLevel(batteryPercentageValueDiv) {
           } else {
              const currentTimestamp = new Date().getTime();
              const differenceInSeconds = (currentTimestamp - parseInt(storedTimestamp)) / 1000;
-             if (differenceInSeconds >= 5) {
+             if (differenceInSeconds >= 12) {
                 console.warn("Sono passati più di 12 secondi!");
                 displayAlert(avviso)
              } else {
@@ -253,9 +245,10 @@ function updateBatteryLevel(batteryPercentageValueDiv) {
     signal.style.display = "block";
  
     var avviso = document.getElementById("bodyPageWithoutAlert");
-    avviso.style.filter = 'blur(5px)';
- 
+    //avviso.style.filter = 'blur(5px)';
     playAlertSound();
+
+
  }
  
  function stopAlert(signal, sound) {
@@ -302,20 +295,23 @@ function updateBatteryLevel(batteryPercentageValueDiv) {
  
  
  function showErrorNodeJSAlert() {
-    var avviso = document.getElementById("bodyPageWithoutAlert");
-    avviso.style.filter = 'blur(25px)';
+   //  var avviso = document.getElementById("bodyPageWithoutAlert");
+   //  avviso.style.filter = 'blur(25px)';
  
-    var avviso = document.getElementById("NodeJSAbsentConnectionAlert");
+   //  var avviso = document.getElementById("NodeJSAbsentConnectionAlert");
+   var avviso = document.getElementById("red-dot-alert");
     avviso.style.display = "block";
  }
  
  // Funzione per ripristinare la pagina web e nascondere l'alert
  function hideErrorNodeJSAlert() {
-    var avviso = document.getElementById("NodeJSAbsentConnectionAlert");
-    avviso.style.display = "none";
+   //  var avviso = document.getElementById("NodeJSAbsentConnectionAlert");
+   //  avviso.style.display = "none";
  
-    var avviso = document.getElementById("bodyPageWithoutAlert");
-    avviso.style.filter = 'none';
+   //  var avviso = document.getElementById("bodyPageWithoutAlert");
+   //  avviso.style.filter = 'none';
+   var avviso = document.getElementById("red-dot-alert");
+   avviso.style.display = "none";
  }
  
  /////////////////        MODAL        ///////////////////////

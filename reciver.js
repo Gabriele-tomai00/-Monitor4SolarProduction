@@ -8,10 +8,11 @@ let batteryPVpercentage;
 let boilerPower;
 // car
 let carBatteryPercentge;
-let carState;
+let carPlugState;
 let wallboxChargePower;
 let wallboxPlugState;
 let lastUpdatePSA;
+
 // GET HTML DIV //
 const houseValuePowerDiv = document.getElementById("unit-house-power");
 const carValuePercentageDiv = document.getElementById("unit-car-percentage");
@@ -20,12 +21,12 @@ const carValuePowerDiv = document.getElementById("unit-car-power");
 const carValueLastUpdate = document.getElementById("car-last-update");
 const wallboxPlugStateDiv = document.getElementById("prism-plug-state");
 const boilerValuePowerDiv = document.getElementById("unit-boiler-power");
-
+hidePageUnitlData();
 // });
-// socket.on riceve i dati aggiornati secondo le regole del server (ogni 2 secondi) 
+// socket.on recives updated data according to the server rules
 socket.on('dati', (data) => {
    //console.log(data);
-
+   //console.log("reciver_mode: ", data['reciver_mode']);
    if (hasError(data)) {
       pvGeneration = "..."; //getValueById(data, "sensor.solaredge_potenza_totale_dc"); console.log("pvGeneration: " + pvGeneration);
       gridSensor = "...";
@@ -35,10 +36,9 @@ socket.on('dati', (data) => {
       boilerPower = "...";
       // car
       carBatteryPercentge = "...";
-      carState = "...";
+      carPlugState = "...";
       wallboxChargePower = "...";
       lastUpdatePSA = "...";
-      // APPARE ALERT CON SCRITTO "IMMPOSSIBILE COMUNICARE CON IL SERVER"
       showConnectionAPIAlert();
 
    } else {
@@ -52,15 +52,17 @@ socket.on('dati', (data) => {
       boilerPower = data['shelly_consumo_boiler'];
       // car
       carBatteryPercentge = data['car_corsa_energy_level'];
-      carState = data['prism_stato'];
+      carPlugState = data['prism_plug_state'];
       wallboxChargePower = data['prism_potenza_di_carica'];
       wallboxPlugState = data['prism_plug_state'];
       lastUpdatePSA = data['car_corsa_last_update'];
-      //console.log("carState: " + carState);
       //console.log("wallboxChargePower: " + wallboxChargePower);
 
+      if (batteryPVchargeDischarge>0 && gridSensor>0) // buttery is charging and grid is importing energy: NOT POSSIBILE
+         gridSensor = 0;
+
+      showPageAfterData();
       // SET VALUE IN HTML //
-      // fvValueDiv.textContent = pvGeneration.value + " kw";
       setRoundValue("fv-value", roundValue(pvGeneration));
       setRoundValue("grid-value", roundValue(gridSensor));
       setRoundValue("grid-value-alert", roundValue(gridSensor));
@@ -71,16 +73,16 @@ socket.on('dati', (data) => {
       //house
       houseValuePowerDiv.textContent = roundValue(homeConsumption) + " kw";
       //car
-      carValuePercentageDiv.textContent = carBatteryPercentge + "%";
-      carValuePercentageDivInModal.textContent = carBatteryPercentge + "%";
-      carValuePercentageDivInModal.textContent = carBatteryPercentge + "%";
-      carValueLastUpdate.textContent = lastUpdatePSA;
-      carValuePowerDiv.textContent = wallboxChargePower + " kw";
-      wallboxPlugStateDiv.textContent = wallboxPlugState;
+      carValuePercentageDiv.textContent = ifNotUnavailable(carBatteryPercentge + "%");
+      carValuePercentageDivInModal.textContent = ifNotUnavailable(carBatteryPercentge + "%");
+      carValuePercentageDivInModal.textContent = ifNotUnavailable(carBatteryPercentge + "%");
+      carValueLastUpdate.textContent = ifNotUnavailable(lastUpdatePSA);
+      carValuePowerDiv.textContent = ifNotUnavailable(wallboxChargePower + " kw");
+      wallboxPlugStateDiv.textContent = ifNotUnavailable(wallboxPlugState);
       if (wallboxPlugState === "Scollegata") {
-         wallboxPlugStateDiv.style.color = "red"; // Testo in rosso
+         wallboxPlugStateDiv.style.color = "red";
       } else {
-         wallboxPlugStateDiv.style.color = "green"; // Testo in verde
+         wallboxPlugStateDiv.style.color = "green";
       }
 
       //boiler
@@ -88,20 +90,17 @@ socket.on('dati', (data) => {
 
 
       updateEnergyBar(roundValue(pvGeneration));
-      ChangeCarIcon(carState, wallboxChargePower);
+      ChangeCarIcon(carPlugState, wallboxChargePower);
       boilerIcon(boilerPower);
       updateArrowVisibility(roundValue(pvGeneration), roundValue(gridSensor), roundValue(homeConsumption), roundValue(batteryPVchargeDischarge));
       updateBatteryLevel(batteryPVpercentage);
       updateWeatherImage(roundValue(pvGeneration));
       checkForEnergyAlert(roundValue(gridSensor), wallboxChargePower.value);
-
    }
 
 });
 
 function ChangeCarIcon(prismState, prismPower) {
-   // console.log("prismState: " + prismState);
-   // console.log("prismPower: " + prismPower);
    const carImage = document.getElementById('eletric-car-img');
    const carValuePowerDiv = document.getElementById("unit-car-power");
 
@@ -145,17 +144,13 @@ function setRoundValue(idHtml, value) {
 }
 
 function roundValue(value) {
-   //console.log("value dentro roundValue: " + value);
-   if (value == "..." || value == "NaN" || value == "Undefined" || value == "undefined" || value == "Unavailable" || value == "unavailable" || isNaN(value)) {
-      //console.log("errore letura valore durante il roundValue(): " + value);
-      //console.log("OFFLINE");
-      return "...";
-   }
+   if (ifNotUnavailable(value) == "non disponible")
+      return "non disponible";
    let numericValue;
    try {
       numericValue = parseFloat(value);
    } catch (e) {
-      console.log("errore nel parsefloat: " + value);
+      console.log("error in parsefloat: " + value);
       return;
    }
    return Math.round(numericValue * 10) / 10;
@@ -173,14 +168,26 @@ function setBatteryValueSize(idHtml, value) {
 }
 
 function hasError(json) {
-   // Verifica se l'oggetto JSON contiene la chiave "error" e se il suo valore non è vuoto
    if (json.hasOwnProperty('error') && json.error !== null && json.error !== undefined && json.error !== '') {
-      return true; // Restituisce true se la chiave "error" non è vuota
+      return true;
    } else {
-      return false; // Restituisce false altrimenti
+      return false;
    }
 }
 
+
+function hidePageUnitlData() {
+   var bodyPage = document.getElementById("bodyPageWithoutAlert");
+   if (bodyPage.style.filter !== 'blur(25px)') {
+      bodyPage.style.filter = 'blur(25px)';
+   }
+   bodyPage.style.filter = 'blur(25px)';
+
+}
+function showPageAfterData() {
+   var bodyPage = document.getElementById("bodyPageWithoutAlert");
+   bodyPage.style.filter = 'none';
+}
 
 function showConnectionAPIAlert() {
    var bodyPage = document.getElementById("bodyPageWithoutAlert");
@@ -195,11 +202,19 @@ function showConnectionAPIAlert() {
    }
 }
 
-// Funzione per ripristinare la pagina web e nascondere l'alert
 function hideConnectionAPIAlert() {
    var avviso = document.getElementById("internetConnectionAlert");
    avviso.style.display = "none";
 
-   var avviso = document.getElementById("bodyPageWithoutAlert");
-   avviso.style.filter = 'none';
+   var bodyPage = document.getElementById("bodyPageWithoutAlert");
+   bodyPage.style.filter = 'none';
+}
+
+function ifNotUnavailable(str) {
+   const regex = /\bunavailable\b/i;
+   // Testa la stringa con la regex
+   if(regex.test(str))
+      return "not available";
+   else
+      return str;
 }

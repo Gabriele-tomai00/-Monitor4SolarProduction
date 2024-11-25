@@ -53,7 +53,7 @@ client.subscribe('dataForMonitorFV', function (err) {
 app.use(express.static(__dirname));
 
 const PORT = 3100;
-server.listen(3100, () => {
+server.listen(PORT, () => {
     console.log(
         "  __  __             _ _             _  _   ________      __  \n" +
         " |  \\/  |           (_) |           | || | |  ____\\ \\    / /  \n" +

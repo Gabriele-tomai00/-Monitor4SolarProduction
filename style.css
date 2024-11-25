@@ -266,7 +266,29 @@ td {
 		font-size: 2em;
 	}
 }
+#red-dot-alert {
+    position: absolute;
+    top: 50%; /* Centra verticalmente */
+    right: 40px; /* Posiziona il pallino vicino al bordo destro */
+    transform: translateY(-50%);
+    width: 30px; /* Larghezza del pallino */
+    height: 30px; /* Altezza del pallino */
+    background-color: red; /* Colore rosso */
+    border-radius: 50%; /* Rende il pallino circolare */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Ombra per un effetto 3D */
+    text-align: center; /* Centra il testo rispetto al pallino */
+}
 
+#red-text-alert {
+    position: absolute;
+    top: 105%; /* Sposta la scritta appena sotto il pallino */
+    left: 50%; /* Centra la scritta rispetto al pallino */
+    transform: translateX(-50%); /* Allinea il testo al centro del pallino */
+    font-size: 18px; /* Dimensione piccola */
+    color: red; /* Colore rosso */
+    font-weight: bold; /* Grassetto */
+    white-space: nowrap; /* Impedisce che il testo vada a capo */
+}
 /* ******************** BATTERY *************************** */
 #battery-graphic-container {
 	max-width: 100%;
@@ -518,3 +540,9 @@ td {
 		font-size: 30px;
 	}
 }
+
+
+	
+
+
+

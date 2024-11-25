@@ -12,22 +12,29 @@
          <div class="energy-bar" data-energy="0">
             <div class="energy-fill"></div>
             <div class="energy-value" id="fv-value">... kw</div>
+            <div id="red-dot-alert">
+               <span id="red-text-alert">non<br>aggiornato</span> <!-- Testo sotto il pallino -->
+            </div>
+
          </div>
          <table>
             <tr id="row1">
                <td>
                   <div class="cell-content">
                      <img id="arrowFVtoGrid" class="arrow_icon" src="img/arrow_up_right_to_under_left.png" alt="Image 1">
+                     </div>   
                   </div>
                </td>
                <td>
                   <div class="cell-content">
+                        <a href="settings.html">
                      <img id="weather-FVindicator-id" src="img/moon_icon.png" alt="Image 2">
+                        </a>
                   </div>
                </td>
                <td>
                   <div class="cell-content">
-                     <img id="arrowFVtoHouse" class="arrow_icon" src="img/arrow_up_left_to_under_right.png" alt="Image 3">
+                     <img id="arrowFVtoHouse" class="arrow_icon" src="img/arrow_up_left_to_under_right.png" alt="Image 3">  
                   </div>
                </td>
             </tr>
@@ -44,6 +51,7 @@
                   <div class="cell-content">
                      <img id="arrowFVtoBattery" class="arrow_icon" src="img/arrow_up_to_under.png" alt="Image 2">
                      <img src="img/arrow_left_to_right.png" id="arrowGridToHouse" alt="arrow Grid to House">
+
                   </div>
                </td>
                <td>
@@ -74,7 +82,7 @@
                </td>
                <td>
                   <div class="cell-content">
-                     <img id="arrowBatteryToHouse" class="arrow_icon" src="img/arrow_under_left_to_up_right.png" alt="Image 4">
+                    <img id="arrowBatteryToHouse" class="arrow_icon" src="img/arrow_under_left_to_up_right.png" alt="Image 4"> 
                   </div>
                </td>
             </tr>
